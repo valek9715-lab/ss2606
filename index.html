@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Приглашение на свадьбу</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Infant:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --dark-emerald: #021410;
+            --gold: #D4C4A8;
+            --white: #F5F5F5;
+            /* Путь к вашему файлу на GitHub */
+            --floral-img: url('bg.jpg');
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--dark-emerald);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .bg-fixed {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: var(--dark-emerald);
+            background-image: linear-gradient(rgba(2, 20, 16, 0.6), rgba(2, 20, 16, 0.85)), var(--floral-img);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 1s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .section { padding: 60px 15px; text-align: center; max-width: 800px; margin: 0 auto; }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 45px 20px;
+            border: 1px solid rgba(212, 196, 168, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        h2.title { font-family: 'Cormorant Infant', serif; font-size: 3rem; color: var(--gold); margin: 0 0 10px; font-weight: 400; }
+        .subtitle { text-transform: uppercase; letter-spacing: 3px; font-size: 0.75rem; margin-bottom: 30px; color: var(--gold); opacity: 0.8; }
+
+        .divider { width: 100px; height: 1px; background: var(--gold); margin: 0 auto 30px; position: relative; }
+        .divider::after { content: '❦'; position: absolute; color: var(--gold); top: -12px; left: calc(50% - 10px); background: transparent; padding: 0 5px; }
+
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+        .names { font-family: 'Great Vibes', cursive; color: var(--gold); line-height: 1.1; margin-bottom: 20px; }
+        .name-line { font-size: clamp(3rem, 12vw, 5.5rem); display: block; }
+        .ampersand { font-size: 2.5rem; display: block; margin: 5px 0; opacity: 0.8; }
+
+        .date-line { font-size: 1.4rem; letter-spacing: 5px; margin-bottom: 30px; border-bottom: 1px solid var(--gold); padding-bottom: 10px; width: 250px; }
+
+        .timer { display: flex; gap: 15px; justify-content: center; margin-bottom: 35px; }
+        .timer-item span { display: block; font-size: 2.2rem; color: var(--gold); font-weight: 200; }
+        .timer-item { font-size: 0.7rem; letter-spacing: 1px; color: var(--white); }
+
+        .btn-gold {
+            display: inline-block; padding: 16px 32px; border: 1px solid var(--gold); color: var(--gold);
+            text-decoration: none; font-size: 0.75rem; letter-spacing: 2px;
+            text-transform: uppercase; transition: 0.3s; background: transparent; font-weight: 600;
+        }
+        .btn-gold:hover { background: var(--gold); color: var(--dark-emerald); }
+
+        .timeline { text-align: left; border-left: 1px solid var(--gold); margin: 0 10px 0 35px; padding-left: 25px; }
+        .time-block { margin-bottom: 40px; position: relative; }
+        .time-block::before { content: ''; position: absolute; left: -30.5px; top: 8px; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 10px var(--gold); }
+        .t-time { font-family: 'Cormorant Infant', serif; font-size: 1.8rem; color: var(--gold); }
+        .t-desc { font-size: 1.1rem; margin: 5px 0; }
+        .t-small { font-size: 0.85rem; opacity: 0.7; font-weight: 300; line-height: 1.3; }
+
+        .palette { display: flex; flex-direction: row; justify-content: center; gap: 10px; margin: 30px 0; overflow-x: auto; padding-bottom: 10px; }
+        .dot { width: 50px; height: 50px; min-width: 50px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); flex-shrink: 0; }
+
+        .vk-link-text { color: var(--gold); text-decoration: none; border-bottom: 1px dashed var(--gold); }
+
+        .rsvp-form input[type="text"], .rsvp-form select { 
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(212,196,168,0.3); 
+            color: #fff; padding: 15px; margin-bottom: 20px; outline: none; font-size: 1rem; border-radius: 10px;
+            font-family: inherit;
+        }
+        .submit-btn { 
+            width: 100%; background: var(--gold); color: var(--dark-emerald); border: none; 
+            padding: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; border-radius: 10px;
+        }
+
+        .footer { padding: 80px 20px 100px; text-align: center; }
+        .footer-text { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: var(--gold); margin-bottom: 10px; }
+        .footer-date { font-size: 1.2rem; letter-spacing: 5px; color: var(--gold); opacity: 0.8; font-weight: 300; }
+
+        @media (max-width: 450px) {
+            .bg-fixed { background-attachment: scroll; }
+            h2.title { font-size: 2.2rem; }
+            .name-line { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-fixed"></div>
+
+    <section class="hero">
+        <div class="names reveal active">
+            <span class="name-line">Александра</span>
+            <span class="ampersand">&</span>
+            <span class="name-line">Валентин</span>
+        </div>
+        <div class="date-line reveal active">26.06.2026</div>
+        <div id="countdown" class="timer reveal active">
+            <div class="timer-item"><span id="days">00</span>дней</div>
+            <div class="timer-item"><span id="hours">00</span>часов</div>
+            <div class="timer-item"><span id="mins">00</span>мин</div>
+        </div>
+        <a href="javascript:void(0)" onclick="generateICS()" class="btn-gold reveal active">Добавить в календарь</a>
+    </section>
+
+    <section class="section reveal">
+        <div class="glass-panel">
+            <h2 class="title">Timing</h2>
+            <div class="divider"></div>
+            <p class="subtitle">Программа дня</p>
+            <div class="timeline">
+                <div class="time-block">
+                    <div class="t-time">10:00</div>
+                    <div class="t-desc">Торжественная церемония в ЗАГСе</div>
+                    <div class="t-small">Мероприятие только для ближних родственников</div>
+                </div>
+                <div class="time-block">
+                    <div class="t-time">16:00</div>
+                    <div class="t-desc">Сбор гостей</div>
+                </div>
+                <div class="time-block">
+                    <div class="t-time">16:30</div>
+                    <div class="t-desc">Welcome-фуршет на свежем воздухе</div>
+                </div>
+                <div class="time-block">
+                    <div class="t-time">18:00</div>
+                    <div class="t-desc">Ужин и танцы до утра</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section reveal">
+        <div class="glass-panel">
+            <h2 class="title">Dress Code</h2>
+            <div class="divider"></div>
+            <p class="subtitle">Цветовая палитра</p>
+            <div class="palette">
+                <div class="dot" style="background-color: #5d1421;"></div>
+                <div class="dot" style="background-color: #647367;"></div>
+                <div class="dot" style="background-color: #9ead9f;"></div>
+                <div class="dot" style="background-color: #e4c4b6;"></div>
+                <div class="dot" style="background-color: #f7e6dc;"></div>
+                <div class="dot" style="background-color: #04382c;"></div>
+            </div>
+            <p style="font-size: 0.9rem; opacity: 0.8;">Будем признательны, если вы поддержите палитру нашей свадьбы</p>
+        </div>
+    </section>
+
+    <section class="section reveal">
+        <div class="glass-panel">
+            <h2 class="title">Location</h2>
+            <div class="divider"></div>
+            <p class="subtitle">Место встречи</p>
+            <p style="font-size: 1.1rem; margin-bottom: 10px;">
+                <a href="https://vk.com/dve_bashni" target="_blank" class="vk-link-text">Площадка "Две Башни"</a>
+            </p>
+            <p>пос. Студёный, ул. Набережная, 7</p>
+            <div style="margin-top: 25px;">
+                <a href="https://yandex.ru/maps/-/CPr-BCJl" target="_blank" class="btn-gold">Открыть карту</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section reveal">
+        <div class="glass-panel">
+            <h2 class="title">RSVP</h2>
+            <div class="divider"></div>
+            <p class="subtitle">Анкета гостя</p>
+            <form action="https://api.sheetmonkey.io/form/qLfaeCxHNY8uUt8npVnSnm" method="POST" class="rsvp-form">
+                <input type="text" name="Name" placeholder="Ваше Имя и Фамилия" required>
+                
+                <div style="text-align: left; margin-bottom: 20px; padding-left: 10px;">
+                    <p style="margin-bottom: 10px; color: var(--gold);">Сможете ли вы присутствовать?</p>
+                    <label style="display: block; margin-bottom: 10px;"><input type="radio" name="Attending" value="Yes" required> Да, с удовольствием</label>
+                    <label style="display: block;"><input type="radio" name="Attending" value="No"> К сожалению, не смогу</label>
+                </div>
+
+                <select name="PlusOne" required>
+                    <option value="" disabled selected>Будете ли вы с парой?</option>
+                    <option value="Alone">Приду один/одна</option>
+                    <option value="With Partner">Приду с парой (+1)</option>
+                </select>
+
+                <input type="text" name="Song" placeholder="Любимая песня для танцев">
+
+                <button type="submit" class="submit-btn">Отправить ответ</button>
+            </form>
+        </div>
+    </section>
+
+    <div class="footer reveal">
+        <div class="footer-text">До встречи!</div>
+        <div class="footer-date">26.06.26</div>
+    </div>
+
+    <script>
+        const weddingDate = new Date("June 26, 2026 16:30:00").getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            if (distance < 0) return;
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById("mins").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000); updateCountdown();
+
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                if (reveals[i].getBoundingClientRect().top < window.innerHeight - 50) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal); reveal();
+
+        function generateICS() {
+            const icsMsg = "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20260626T133000Z\nSUMMARY:Свадьба Александры и Валентина\nLOCATION:Площадка 'Две Башни'\nEND:VEVENT\nEND:VCALENDAR";
+            const blob = new Blob([icsMsg], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'wedding.ics';
+            link.click();
+        }
+    </script>
+</body>
+</html>
